@@ -13,14 +13,11 @@
 "Publish":
 [
     "./Woo Debug" ,
-    "D:/Program Files/AoE2/Random" ,
-    "D:/Program Files/AoE2/Games/WololoKingdoms/Script.Rm" ,
-    "D:/Program Files/AoE2/Voobly Mods/AOC/Data Mods/WololoKingdoms/Script.Rm"
 ] ,
 
 "Header":
-"Made by TheLonely / TheLonelyDev\nCompiled from Woo Lang (instruction set 1.0.2 xA).\nUsing:\n\tTEMPLATE\n\tMODE/PRAGMA\n\tXRND\n\tANDOR\n\tOPTIMISE\n\nhttps://github.com/TheLonelyDev/Woo" ,
+"Header comment\n\nUsing Woo Lang instruction set https://github.com/TheLonelyDev/Woo" ,
 
 "Footer":
-"Made by TheLonely / TheLonelyDev" 
+"Footer comment" 
 }
