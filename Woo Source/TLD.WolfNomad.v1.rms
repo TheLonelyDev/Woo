@@ -1,0 +1,459 @@
+create_template T_WATER_TERRAIN
+{
+    {
+        land_percent                   rnd(3,12)
+        number_of_clumps               rnd(1,15)
+        clumping_factor		           rnd(10,100)
+        
+        set_avoid_player_start_areas
+        spacing_to_other_terrain_types rnd(2,4)
+        base_terrain                    BASE
+        set_scale_by_size 
+    }
+};
+
+create_template T_MED_WATER
+{
+    {
+        land_percent                   100
+        number_of_clumps               150
+        clumping_factor		           rnd(10,100)
+        
+        set_avoid_player_start_areas
+        spacing_to_other_terrain_types rnd(1,3)
+        base_terrain                    WATER
+        set_scale_by_size 
+    }
+};
+
+create_template T_FOREST
+{
+    {
+        land_percent                   rnd(2,5)
+        number_of_clumps               rnd(4,14)
+        clumping_factor		           rnd(25,50)
+        
+        base_terrain                    BASE
+
+        spacing_to_other_terrain_types rnd(0,6)
+        set_scale_by_size 
+    }
+};
+
+create_template T_LAND
+{
+    {
+        land_percent                   rnd(1,3)
+        number_of_clumps               rnd(2,5)
+        clumping_factor		           rnd(0,40)
+                
+        spacing_to_other_terrain_types 0
+        base_terrain                    BASE
+        set_scale_by_size 
+    }
+};
+
+create_template T_PLAYER_OBJECT
+{
+    {
+        number_of_objects               rnd(1,8)
+        number_of_groups rnd(1,2)
+        min_distance_to_players			rnd(2,16) 
+        max_distance_to_players			rnd(10,32)
+        set_place_for_every_player
+        set_gaia_object_only
+        set_tight_grouping 
+    }
+};
+
+create_template T_RANDOM_OBJECT
+{
+    {
+        number_of_objects               rnd(2,8)
+        number_of_groups rnd(2,5)
+        set_gaia_object_only
+        set_loose_grouping 
+        set_scale_by_size 
+
+        min_distance_to_players			rnd(12,18)
+        max_distance_to_players       	rnd(35,50)
+        max_distance_to_other_zones rnd(0,8)
+    }
+};
+
+create_template T_RANDOM_PLAYER_OBJECT
+{
+    {
+        number_of_objects               rnd(1,8)
+        number_of_groups rnd(1,2    )
+        set_gaia_object_only
+        set_loose_grouping 
+        set_scale_by_size 
+        set_place_for_every_player
+
+        min_distance_to_players			rnd(8,12)
+        max_distance_to_players       	rnd(35,50)
+        max_distance_to_other_zones rnd(0,8)
+    }
+};
+
+create_template T_WATER_FISH
+{
+    {   
+        terrain_to_place_on WATER
+        number_of_objects               1
+        number_of_groups rnd(10,30)
+        set_loose_grouping 
+        set_scale_by_size 
+    }
+};
+
+create_template T_MED_FISH
+{
+    {   
+        terrain_to_place_on MED_WATER
+        number_of_objects               1
+        number_of_groups rnd(10,30)
+        set_loose_grouping 
+        set_scale_by_size 
+    }
+};
+
+create_template T_SHALLOW_FISH
+{
+    {   
+        terrain_to_place_on SHALLOW
+        number_of_objects               1
+        number_of_groups rnd(10,30)
+        set_loose_grouping 
+        set_scale_by_size 
+    }
+};
+
+create_template T_AROUND_PLAYER
+{
+    {
+        number_of_objects               10000
+        min_distance_to_players			12
+        max_distance_to_players         12
+        set_place_for_every_player
+    }
+};
+
+#const AMOUNT_FOOD 0
+<PLAYER_SETUP>
+random_placement
+guard_state HUNTING_WOLF AMOUNT_FOOD 0 1
+
+nomad_resources
+ai_info_map_type NOMAD 1 0 1
+
+#define REGICIDE
+<LAND_GENERATION>
+#const BASE xrnd{6&11&27&3&33&36&14&0&16&12&9&34&32&&&&&};
+#const SECONDARY xrnd{2&37&6&11&27&3&33&36&14&18&10&20&17&5&13&19&21&0&16&12&9&34&35&26&4&32&1&15&28};
+
+base_terrain BASE
+
+create_player_lands
+{
+terrain_type xrnd{BEACH&DIRT&DIRT2&DIRT3&DIRT_SNOW&DESERT&LEAVES&GRASS&GRASS2&GRASS3&GRASS_SNOW&SHALLOW&SNOW};    
+
+  	land_percent              	rnd(1,2)
+  	left_border                 rnd(1,25)
+  	right_border                rnd(1,25)
+  	top_border                  rnd(1,25)
+  	bottom_border               rnd(1,25)
+	border_fuzziness			rnd(1,99)  
+    set_zone_randomly 
+}
+
+create_land
+{
+terrain_type xrnd{FOREST&BAMBOO&LEAVES&PALM_DESERT&PINE_FOREST&SNOW_FOREST};    
+
+  	land_percent              	rnd(4,6)
+	border_fuzziness			rnd(1,99)  
+    other_zone_avoidance_distance 0
+}
+
+
+<ELEVATION_GENERATION>
+create_elevation 2
+{
+base_terrain BASE
+number_of_tiles rnd(15,100)
+number_of_clumps rnd(5,25)
+set_scale_by_size
+set_scale_by_groups
+spacing rnd(1,25)
+}
+
+create_elevation 4
+{
+base_terrain BASE
+number_of_tiles rnd(15,100)
+number_of_clumps rnd(5,25)
+set_scale_by_size
+set_scale_by_groups
+spacing rnd(1,25)
+}
+
+<CLIFF_GENERATION>
+
+min_number_of_cliffs rnd(0,30)
+max_number_of_cliffs rnd(25,50)
+min_length_of_cliff rnd(1,5)
+max_length_of_cliff rnd(5,9)
+cliff_curliness rnd(1,99)
+min_distance_cliffs rnd(2,8)
+min_terrain_distance rnd(8,16)
+
+
+
+<TERRAIN_GENERATION>
+
+/** Random Trees **/
+create_terrain xrnd{FOREST T_FOREST&BAMBOO T_FOREST&LEAVES T_FOREST&PALM_DESERT T_FOREST&PINE_FOREST T_FOREST&SNOW_FOREST T_FOREST};
+create_terrain xrnd{FOREST T_FOREST&BAMBOO T_FOREST&LEAVES T_FOREST&PALM_DESERT T_FOREST&PINE_FOREST T_FOREST&SNOW_FOREST T_FOREST&};
+create_terrain xrnd{FOREST T_FOREST&BAMBOO T_FOREST&LEAVES T_FOREST&PALM_DESERT T_FOREST&PINE_FOREST T_FOREST&SNOW_FOREST T_FOREST&&};
+create_terrain xrnd{FOREST T_FOREST&BAMBOO T_FOREST&LEAVES T_FOREST&PALM_DESERT T_FOREST&PINE_FOREST T_FOREST&SNOW_FOREST T_FOREST&&&};
+create_terrain xrnd{FOREST T_FOREST&BAMBOO T_FOREST&LEAVES T_FOREST&PALM_DESERT T_FOREST&PINE_FOREST T_FOREST&SNOW_FOREST T_FOREST&&&&};
+
+/** Random ground patches **/
+create_terrain xrnd{DIRT T_LAND&DIRT2 T_LAND&DIRT3 T_LAND&DIRT_SNOW T_LAND&LEAVES T_LAND&GRASS T_LAND&GRASS2 T_LAND&GRASS3 T_LAND&GRASS_SNOW T_LAND&SNOW T_LAND};
+create_terrain xrnd{DIRT T_LAND&DIRT2 T_LAND&DIRT3 T_LAND&DIRT_SNOW T_LAND&LEAVES T_LAND&GRASS T_LAND&GRASS2 T_LAND&GRASS3 T_LAND&GRASS_SNOW T_LAND&SNOW T_LAND&&&};
+
+#define xrnd{HAS_WATER&HAS_WATER&};
+
+/** Random Water **/
+if HAS_WATER
+create_terrain xrnd{WATER T_WATER_TERRAIN};
+create_terrain xrnd{WATER T_WATER_TERRAIN&SHALLOW T_WATER_TERRAIN&};
+create_terrain xrnd{MED_WATER T_MED_WATER&};
+
+endif
+
+<OBJECTS_GENERATION>
+
+create_object VILLAGER 
+{
+    max_distance_to_other_zones     2
+
+    set_place_for_every_player
+}
+
+#define xrnd{OVER_TIME};
+if REGICIDE
+    
+    create_object HUNTING_WOLF
+    {
+        max_distance_to_other_zones 2 
+
+        if OVER_TIME
+            resource_delta rnd(20,350)
+        endif
+
+        set_place_for_every_player
+    }
+endif
+
+/** Extra goodies **/
+create_object xrnd{GOLD T_RANDOM_OBJECT&STONE T_RANDOM_OBJECT&IRON_BOAR T_RANDOM_OBJECT&RELIC T_RANDOM_OBJECT&BOAR T_RANDOM_OBJECT&DEER T_RANDOM_OBJECT&SHEEP T_RANDOM_OBJECT&FORAGE T_RANDOM_OBJECT};
+create_object xrnd{GOLD T_RANDOM_OBJECT&STONE T_RANDOM_OBJECT&IRON_BOAR T_RANDOM_OBJECT&RELIC T_RANDOM_OBJECT&BOAR T_RANDOM_OBJECT&DEER T_RANDOM_OBJECT&SHEEP T_RANDOM_OBJECT&FORAGE T_RANDOM_OBJECT&&&&};
+create_object xrnd{GOLD T_RANDOM_OBJECT&STONE T_RANDOM_OBJECT&IRON_BOAR T_RANDOM_OBJECT&RELIC T_RANDOM_OBJECT&BOAR T_RANDOM_OBJECT&DEER T_RANDOM_OBJECT&SHEEP T_RANDOM_OBJECT&FORAGE T_RANDOM_OBJECT&&&&&&&};
+
+create_object xrnd{GOLD T_RANDOM_PLAYER_OBJECT&STONE T_RANDOM_PLAYER_OBJECT&FORAGE T_RANDOM_PLAYER_OBJECT};
+create_object xrnd{GOLD T_RANDOM_OBJECT&GOLD T_RANDOM_OBJECT&STONE T_RANDOM_OBJECT&FORAGE T_RANDOM_OBJECT&&&};
+create_object xrnd{GOLD T_RANDOM_OBJECT&STONE T_RANDOM_OBJECT&FORAGE T_RANDOM_OBJECT&&&&&};
+
+/** The fish **/
+create_object xrnd{FISH_DORADO T_MED_FISH&FISH T_MED_FISH&GREAT_FISH_MARLIN T_MED_FISH&FISH_SALMON T_MED_FISH&FISH_SNAPPER T_MED_FISH&FISH_TUNA T_MED_FISH};
+create_object xrnd{FISH_DORADO T_MED_FISH&FISH T_MED_FISH&GREAT_FISH_MARLIN T_MED_FISH&FISH_SALMON T_MED_FISH&FISH_SNAPPER T_MED_FISH&FISH_TUNA T_MED_FISH&&};
+create_object xrnd{FISH_DORADO T_MED_FISH&FISH T_MED_FISH&GREAT_FISH_MARLIN T_MED_FISH&FISH_SALMON T_MED_FISH&FISH_SNAPPER T_MED_FISH&FISH_TUNA T_MED_FISH&&&&};
+create_object xrnd{FISH_DORADO T_MED_FISH&FISH T_MED_FISH&GREAT_FISH_MARLIN T_MED_FISH&FISH_SALMON T_MED_FISH&FISH_SNAPPER T_MED_FISH&FISH_TUNA T_MED_FISH&&&&&&};
+
+create_object xrnd{SHORE_FISH T_WATER_FISH};
+create_object xrnd{FISH_DORADO T_WATER_FISH&FISH T_WATER_FISH&GREAT_FISH_MARLIN T_WATER_FISH&FISH_SALMON T_WATER_FISH&FISH_SNAPPER T_WATER_FISH&FISH_TUNA T_WATER_FISH&&&};
+create_object xrnd{FISH_DORADO T_WATER_FISH&FISH T_WATER_FISH&GREAT_FISH_MARLIN T_WATER_FISH&FISH_SALMON T_WATER_FISH&FISH_SNAPPER T_WATER_FISH&FISH_TUNA T_WATER_FISH&&&&&};
+create_object xrnd{FISH_DORADO T_WATER_FISH&FISH T_WATER_FISH&GREAT_FISH_MARLIN T_WATER_FISH&FISH_SALMON T_WATER_FISH&FISH_SNAPPER T_WATER_FISH&FISH_TUNA T_WATER_FISH&&&&&&&&};
+
+/** Standard resources per player basis **/
+create_object SHEEP
+{
+    number_of_objects               4
+
+    max_distance_to_other_zones     2
+    min_distance_to_players         9
+    
+    set_loose_grouping
+    set_place_for_every_player
+    set_gaia_object_only
+}
+
+create_object SHEEP
+{
+    number_of_objects               2
+    number_of_groups                2
+
+    max_distance_to_other_zones     2   
+    min_distance_group_placement    3
+    min_distance_to_players         14
+
+    set_loose_grouping
+    set_place_for_every_player
+    set_gaia_object_only
+}
+
+create_object DEER
+{
+    number_of_objects               4
+    group_placement_radius          3
+
+    max_distance_to_other_zones     2    
+    min_distance_to_players         18
+
+    set_loose_grouping
+    set_place_for_every_player
+    set_gaia_object_only
+}
+
+create_object BOAR
+{
+    number_of_objects               1
+    number_of_groups                2
+  
+    max_distance_to_other_zones     2  
+    min_distance_group_placement    3
+    min_distance_to_players         16
+
+    set_loose_grouping
+    set_place_for_every_player  
+    set_gaia_object_only
+}
+
+create_object FORAGE
+{
+    number_of_objects               6
+    group_placement_radius          3
+    
+    max_distance_to_other_zones     2
+    min_distance_group_placement    5
+    min_distance_to_players         11
+
+    set_tight_grouping
+    set_place_for_every_player
+    set_gaia_object_only
+}
+
+create_object GOLD 
+{
+	number_of_objects               rnd(6,9)
+
+    group_placement_radius     3
+    set_tight_grouping
+    set_gaia_object_only
+    set_place_for_every_player
+    min_distance_group_placement  11
+    max_distance_to_other_zones  7
+}
+
+create_object GOLD 
+{
+	number_of_objects               rnd(4,6)
+
+    group_placement_radius     3
+    set_tight_grouping
+    set_gaia_object_only
+    set_place_for_every_player
+    min_distance_group_placement  7
+    max_distance_to_other_zones  7
+}
+
+create_object STONE 
+{
+	number_of_objects               rnd(4,6)
+
+    group_placement_radius     2  
+    set_tight_grouping 
+    set_gaia_object_only
+    set_place_for_every_player
+    min_distance_group_placement  7
+    max_distance_to_other_zones  7
+}
+
+create_object STONE 
+{
+	number_of_objects               rnd(4,6)
+
+    group_placement_radius     2
+    set_tight_grouping
+    set_gaia_object_only
+    set_place_for_every_player
+    min_distance_group_placement  7
+}
+
+/* RESOURCES BY NUMBER OF PLAYERS */
+
+create_object STONE
+{
+    number_of_groups           1    
+    number_of_objects          6
+    group_placement_radius     2
+    set_tight_grouping
+    set_gaia_object_only
+    set_scaling_to_player_number
+    min_distance_group_placement  7
+}
+
+create_object GOLD
+{
+    number_of_groups           1    
+    number_of_objects          6
+    group_placement_radius     2
+    set_tight_grouping
+    set_gaia_object_only
+    set_scaling_to_player_number
+    min_distance_group_placement  7
+}
+
+create_object RELIC
+{
+    number_of_objects               5
+
+    min_distance_to_players         25
+    min_distance_group_placement    5
+    temp_min_distance_group_placement 20
+}
+
+/** Additonal deer and forage bushes **/
+create_object DEER 
+{
+	number_of_objects               rnd(1,5)
+    number_of_groups                1
+
+	set_tight_grouping
+    set_place_for_every_player
+	set_gaia_object_only
+
+	min_distance_to_players         24
+    max_distance_to_other_zones     2
+
+    terrain_to_place_on             NORMAL
+}
+
+create_object FORAGE 
+{
+	number_of_objects               rnd(2,6)
+    number_of_groups                rnd(1,2)
+	group_placement_radius          2
+
+	min_distance_group_placement    2
+    max_distance_to_other_zones     2
+
+	set_tight_grouping
+    set_place_for_every_player
+	set_gaia_object_only
+	
+	terrain_to_place_on             NORMAL
+}

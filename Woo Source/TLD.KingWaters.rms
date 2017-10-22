@@ -1,0 +1,525 @@
+<PLAYER_SETUP>
+random_placement
+
+nomad_resources
+ai_info_map_type NOMAD 1 0 1
+
+<LAND_GENERATION>
+/** Base terrain **/
+base_terrain                        SHALLOW
+
+
+create_player_lands 
+{
+	terrain_type                    GRASS
+	land_percent                    0
+	set_zone_by_team
+
+    left_border 8
+    right_border 8
+    top_border 8
+    bottom_border 8
+    base_size 0
+
+	other_zone_avoidance_distance 5
+
+	clumping_factor                 100
+	border_fuzziness                100
+}
+
+
+create_land 
+{
+	terrain_type                    SHALLOW
+
+	left_border                     40
+	right_border                    40
+	top_border                      40
+	bottom_border                   40
+
+    land_percent 100
+
+	other_zone_avoidance_distance   0
+
+    zone 5
+}
+
+/** Create the horizontal water line **/
+create_land 
+{
+	terrain_type                    WATER
+	land_percent                    75
+
+	left_border                     55
+	right_border                    10
+	top_border                      47
+	bottom_border                   47
+
+	border_fuzziness                25
+	clumping_factor                 25
+
+	other_zone_avoidance_distance   0
+
+    zone 5
+}
+
+create_land 
+{
+	terrain_type                    WATER
+	land_percent                    75
+
+	left_border                     10
+	right_border                    55
+	top_border                      48
+	bottom_border                   48
+
+	border_fuzziness                25
+	clumping_factor                 25
+
+	other_zone_avoidance_distance   0
+
+    zone 5
+}
+
+create_land 
+{
+	terrain_type                    WATER
+	land_percent                    75
+
+	left_border                     48
+	right_border                    48
+	top_border                      10
+	bottom_border                   55
+
+	border_fuzziness                25
+	clumping_factor                 25
+
+	other_zone_avoidance_distance   0
+
+    zone 5
+}
+
+create_land 
+{
+	terrain_type                    WATER
+	land_percent                    75
+
+	left_border                     48
+	right_border                    48
+	top_border                      55
+	bottom_border                   10
+
+	border_fuzziness                25
+	clumping_factor                 25
+
+	other_zone_avoidance_distance   0
+
+    zone 5
+}
+
+
+/** Create the corner islands **/
+create_land 
+{
+    terrain_type                    WATER
+    land_percent                    1
+
+    land_position                   6 6
+}
+
+create_land 
+{
+    terrain_type                    WATER
+    land_percent                    1
+
+    land_position                   94 6
+}
+
+create_land 
+{
+    terrain_type                    WATER
+    land_percent                    1
+
+    land_position                   6 94
+}
+
+create_land 
+{
+    terrain_type                    WATER
+    land_percent                    1
+
+    land_position                   94 94
+}
+
+
+create_land 
+{
+	terrain_type                    GRASS
+	land_percent                    85
+
+	left_border                     5
+	right_border                    52
+	top_border                      52
+	bottom_border                   5
+
+	border_fuzziness                10
+	clumping_factor                 10
+
+	other_zone_avoidance_distance   0
+
+    zone 83
+}
+
+create_land 
+{
+	terrain_type                    GRASS
+	land_percent                    85
+
+	left_border                     52
+	right_border                    5
+	top_border                      52
+	bottom_border                   5
+
+	border_fuzziness                10
+	clumping_factor                 10
+
+	other_zone_avoidance_distance   0
+
+    zone 83
+}
+
+create_land 
+{
+	terrain_type                    GRASS
+	land_percent                    85
+
+	left_border                     5
+	right_border                    52
+	top_border                      5
+	bottom_border                   52
+
+	border_fuzziness                10
+	clumping_factor                 10
+
+	other_zone_avoidance_distance   0
+
+    zone 83
+}
+
+create_land 
+{
+	terrain_type                    GRASS
+	land_percent                    85
+
+	left_border                     52
+	right_border                    5
+	top_border                      5
+	bottom_border                   52
+
+	border_fuzziness                10
+	clumping_factor                 10
+
+	other_zone_avoidance_distance   0
+
+    zone 83
+}
+
+
+
+
+
+<ELEVATION_GENERATION>
+/** Create some elevation across the map **/
+create_elevation rnd(2,6)
+{
+	base_terrain                    GRASS
+	number_of_tiles                 rnd(125,250)
+	number_of_clumps                rnd(75,175)
+
+	set_scale_by_size
+	set_scale_by_groups
+}
+
+create_elevation rnd(4,9)
+{
+	base_terrain                    LEAVES
+	number_of_tiles                 rnd(100,200)
+	number_of_clumps                rnd(25,40)
+
+	set_scale_by_size
+	set_scale_by_groups
+}
+
+create_elevation rnd(3,8)
+{
+	base_terrain                    GRASS
+	number_of_tiles                 rnd(100,200)
+	number_of_clumps                rnd(50,100)
+
+	set_scale_by_size
+	set_scale_by_groups
+}
+
+
+
+<TERRAIN_GENERATION>
+create_terrain LEAVES 
+{
+	base_terrain                    GRASS
+	land_percent                    99
+	number_of_clumps                500
+	spacing_to_other_terrain_types  2
+}
+
+create_terrain GRASS 
+{
+	base_terrain                    LEAVES
+	land_percent                    99
+	number_of_clumps                500
+}
+
+/** Create the wood **/
+create_terrain FOREST 
+{
+	base_terrain                    GRASS
+	land_percent                    13
+	number_of_clumps                15	
+	clumping_factor                 100
+
+	spacing_to_other_terrain_types  2
+    
+    set_scale_by_groups
+	set_avoid_player_start_areas
+}
+
+create_terrain GRASS2 
+{
+	base_terrain                    GRASS
+	land_percent                    99
+	number_of_clumps                500
+	spacing_to_other_terrain_types  2
+}
+
+
+<CLIFF_GENERATION>
+/** Add some cliffs **/
+min_number_of_cliffs                rnd(1,10)
+max_number_of_cliffs                rnd(10,30)
+
+
+<OBJECTS_GENERATION>
+create_object VILLAGER 
+{
+	min_distance_to_players         6
+	max_distance_to_players         12
+
+    max_distance_to_other_zones     4
+
+    set_place_for_every_player
+}
+
+create_object SPEARMAN 
+{
+	min_distance_to_players         6
+	max_distance_to_players         12
+
+    max_distance_to_other_zones     4
+
+    set_place_for_every_player
+}
+
+
+/** Add the fish, blup blup **/
+create_object SNAPPER 
+{
+	number_of_objects               1
+	number_of_groups                rnd(25,125)
+	group_placement_radius          1
+
+	temp_min_distance_group_placement 5
+	min_distance_group_placement    2
+
+	set_gaia_object_only
+
+	terrain_to_place_on             WATER
+}
+
+create_object FISH_DORADO 
+{
+	number_of_objects               1
+	number_of_groups                rnd(25,125)
+	group_placement_radius          1	
+
+	temp_min_distance_group_placement 8
+	min_distance_group_placement    2
+
+	set_gaia_object_only
+    
+    terrain_to_place_on             WATER
+}
+
+create_object TUNA 
+{
+	number_of_objects               1
+	number_of_groups                rnd(50,175)
+	group_placement_radius          1	
+
+	temp_min_distance_group_placement 9
+	min_distance_group_placement    2
+
+	set_gaia_object_only
+
+	terrain_to_place_on             WATER
+}
+
+/** The basic resources **/
+create_object FORAGE
+{
+	number_of_objects               6
+	group_placement_radius          2
+
+	min_distance_group_placement    2		
+	min_distance_to_players         10
+	max_distance_to_players         12
+
+    set_tight_grouping
+    set_place_for_every_player
+    set_gaia_object_only
+
+	terrain_to_place_on             GRASS
+}
+
+create_object SHEEP 
+{
+	number_of_objects               1
+	number_of_groups                4
+
+	min_distance_to_players         2
+	max_distance_to_players         4
+
+	set_tight_grouping
+	set_place_for_every_player
+	set_gaia_object_only
+
+    terrain_to_place_on             GRASS
+}
+
+create_object SHEEP 
+{
+	number_of_objects               2
+	number_of_groups                2
+
+	min_distance_to_players         14
+	max_distance_to_players         22
+
+	set_loose_grouping
+	set_place_for_every_player
+    set_gaia_object_only
+
+    terrain_to_place_on             GRASS
+}
+
+create_object DEER 
+{
+	number_of_objects               5
+
+	min_distance_to_players         18
+	max_distance_to_players         25
+
+    set_tight_grouping
+	set_place_for_every_player    
+	set_gaia_object_only
+
+    other_zone_avoidance_distance   2
+    terrain_to_place_on             GRASS
+}
+
+create_object BOAR 
+{
+	number_of_objects               1
+	number_of_groups                2
+
+	min_distance_to_players         16
+	max_distance_to_players         20
+
+	set_gaia_object_only
+	set_place_for_every_player
+
+    other_zone_avoidance_distance   2
+}
+
+create_object STONE 
+{
+	number_of_objects               4
+    number_of_groups                2
+
+	min_distance_group_placement    8
+	max_distance_to_other_zones     2	
+	min_distance_to_players         18
+	max_distance_to_players         27
+
+	set_tight_grouping
+    set_place_for_every_player
+	set_gaia_object_only
+
+	terrain_to_place_on             GRASS
+}
+
+create_object GOLD 
+{
+	number_of_objects               7
+    number_of_groups                2
+
+	min_distance_group_placement    8
+	max_distance_to_other_zones     6
+	min_distance_to_players         10
+	max_distance_to_players         16
+
+    set_tight_grouping
+	set_place_for_every_player    
+	set_gaia_object_only
+
+	terrain_to_place_on             GRASS
+}
+
+/** Additonal deer and forage bushes **/
+create_object DEER 
+{
+	number_of_objects               rnd(1,5)
+    number_of_groups                rnd(2,5)
+
+	set_tight_grouping
+	set_gaia_object_only
+
+	min_distance_to_players         24
+    other_zone_avoidance_distance   2
+
+    terrain_to_place_on             GRASS
+}
+
+create_object FORAGE 
+{
+	number_of_objects               rnd(2,6)
+    number_of_groups                rnd(2,4)
+	group_placement_radius          2
+
+	min_distance_group_placement    2
+
+	set_tight_grouping
+	set_gaia_object_only
+	
+	terrain_to_place_on             GRASS
+}
+
+create_object RELIC 
+{
+	number_of_objects               1
+	number_of_groups                4
+
+    min_distance_to_players         12
+    min_distance_group_placement    20
+
+    set_gaia_object_only
+
+    terrain_to_place_on             GRASS
+}

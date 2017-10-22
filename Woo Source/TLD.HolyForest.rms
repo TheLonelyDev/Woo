@@ -1,0 +1,562 @@
+/**
+    "Holy Forest"
+    A forest map with islands of grass which contain enough resources for a normal game. 
+    The islands are closed off from each other by borders made of forage bushes with a decreased amount of food and pieces of the true cross which dissapear when picked up by a monk.
+
+    There are 4 versions of this map so far:
+        Normal version (has regicide support)
+        Nomad version (has regicide support)
+        XRes version (has regicide support), spawns rare gold and stone chunks in the borders
+        XRes Nomad version (has regicide support), XRes and Nomad combined
+
+
+
+    ~Made by TheLonely~
+
+**/
+
+/**
+
+Either toggle NOMAD_MODE and/or XRES_MODE (or none) with define
+define NOMAD_MODE
+define XRES_MODE
+**/
+
+#pragma NOMAD_MODE;
+#pragma XRES_MODE;
+#pragma NORMAL;
+#pragma NOMAD_MODE XRES_MODE;
+
+
+<PLAYER_SETUP>
+random_placement
+
+if NOMAD_MODE
+    nomad_resources
+    ai_info_map_type NOMAD 1 0 1
+endif
+
+<LAND_GENERATION>
+/** Forest Map **/
+
+/** GRASS3 **/
+#const                              BASE        9
+
+/** GRASS **/
+#const                              NORMAL      0
+
+/** FOREST **/
+#const                              TREES       10
+
+/** DIRT **/
+#const                              DIVIDER     6
+
+/** ROAD **/
+#const                              NOBUILD     40
+
+/** Base terrain **/
+base_terrain                        BASE
+
+create_player_lands 
+{
+    terrain_type                    NORMAL
+    land_percent                    41
+    base_size                       12
+    left_border                     5
+    right_border                    5
+    top_border                      5
+    bottom_border                   3
+    clumping_factor                 12
+    other_zone_avoidance_distance   1
+}
+
+if TINY_MAP
+    create_land
+    {
+        terrain_type                NORMAL
+        land_percent                2
+        clumping_factor             10
+
+        left_border                 15
+        right_border                15
+        bottom_border               15
+        top_border                  15
+
+        other_zone_avoidance_distance 5
+
+        land_id                     20
+        zone                        20
+    }
+else
+    create_land
+    {
+        terrain_type                NORMAL
+        land_percent                2
+        clumping_factor             10
+
+        left_border                 15
+        right_border                15
+        bottom_border               15
+        top_border                  15
+
+        other_zone_avoidance_distance 5
+        
+        land_id                     20
+        zone                        20
+    }
+
+    create_land
+    {
+        terrain_type                NORMAL
+        land_percent                2
+        clumping_factor             10
+
+        left_border                 15
+        right_border                15
+        bottom_border               15
+        top_border                  15
+
+        other_zone_avoidance_distance 5
+        
+        land_id                     21
+        zone                        21
+    }
+endif
+
+if HUGE_MAP
+    create_land
+    {
+        terrain_type                NORMAL
+        land_percent                1
+        clumping_factor             10
+
+        left_border                 15
+        right_border                15
+        bottom_border               15
+        top_border                  15
+
+        other_zone_avoidance_distance 5
+
+        land_id                     22
+        zone                        22
+    }
+elseif GIGANTIC_MAP
+    create_land
+    {
+        terrain_type                NORMAL
+        land_percent                2
+        clumping_factor             10
+
+        left_border                 15
+        right_border                15
+        bottom_border               15
+        top_border                  15
+
+        other_zone_avoidance_distance 5
+
+        land_id                     22
+        zone                        22
+    }
+endif
+
+
+
+<TERRAIN_GENERATION>
+create_terrain NOBUILD
+{
+    base_terrain                    BASE
+    land_percent                    100
+    number_of_clumps                50000
+
+    spacing_to_other_terrain_types  0
+}
+
+create_terrain DIVIDER
+{
+    base_terrain                    NOBUILD
+    land_percent                    100
+    number_of_clumps                50000
+
+    spacing_to_other_terrain_types  0
+}
+
+create_terrain TREES
+{
+    base_terrain                    DIVIDER
+    land_percent                    100
+    number_of_clumps                999
+
+    spacing_to_other_terrain_types  1
+}
+
+create_terrain TREES
+{
+    base_terrain                    NORMAL
+    land_percent                    7
+    number_of_clumps                16
+    clumping_factor                 100
+
+    spacing_to_other_terrain_types  3
+    
+    set_scale_by_groups
+    set_avoid_player_start_areas       
+}
+
+
+
+<OBJECTS_GENERATION>
+/** Create the borders **/
+if XRES_MODE
+create_object STONE 
+{
+	number_of_objects               1
+    number_of_groups                rnd(5,8)
+
+    temp_min_distance_group_placement 3
+    temp_max_distance_group_placement 6
+
+	set_tight_grouping
+    set_place_for_every_player
+	set_gaia_object_only
+
+	terrain_to_place_on             DIVIDER
+}
+
+create_object GOLD 
+{
+	number_of_objects               1
+    number_of_groups                rnd(6,12)
+
+    temp_min_distance_group_placement 3
+    temp_max_distance_group_placement 6
+
+    set_tight_grouping
+	set_place_for_every_player    
+	set_gaia_object_only
+
+	terrain_to_place_on             DIVIDER
+}
+endif
+
+create_object FORAGE 
+{
+	number_of_objects               1
+	number_of_groups                50000
+	
+    temp_min_distance_group_placement 0
+
+    group_placement_radius          0
+
+    resource_delta                  -50
+	
+    set_gaia_object_only
+
+    terrain_to_place_on             DIVIDER
+}
+
+/** Basic stuff; TC, vills and spearman **/
+if NOMAD_MODE
+else
+create_object TOWN_CENTER 
+{	
+	max_distance_to_players         0
+
+    max_distance_to_other_zones     2
+
+    set_place_for_every_player
+}
+
+create_object SCOUT 
+{
+	min_distance_to_players         6
+	max_distance_to_players         6
+
+    max_distance_to_other_zones     2
+
+    set_place_for_every_player
+}
+endif
+
+create_object VILLAGER 
+{
+    if NOMAD_MODE
+    else
+    min_distance_to_players         6
+    max_distance_to_players         6
+    endif 
+
+    max_distance_to_other_zones     2
+
+    set_place_for_every_player
+}
+
+if REGICIDE
+    create_object VILLAGER
+    {
+        number_of_objects           7
+
+        if NOMAD_MODE
+        else
+        min_distance_to_players     6
+        max_distance_to_players     7
+        endif        
+
+        max_distance_to_other_zones  2
+
+        set_place_for_every_player
+    }
+
+    create_object KING
+    {
+        if NOMAD_MODE
+        else
+        min_distance_to_players     6
+        max_distance_to_players     7
+        endif 
+
+        max_distance_to_other_zones 2
+
+        set_place_for_every_player
+    }
+endif
+
+/** Standard resources per player basis **/
+create_object SHEEP
+{
+    number_of_objects               4
+
+    max_distance_to_other_zones     2
+    min_distance_to_players         9
+    
+    if NOMAD_MODE
+	else
+    max_distance_to_players         10
+    endif
+
+    set_loose_grouping
+    set_place_for_every_player
+    set_gaia_object_only
+}
+
+create_object SHEEP
+{
+    number_of_objects               2
+    number_of_groups                2
+
+    max_distance_to_other_zones     2   
+    min_distance_group_placement    3
+    min_distance_to_players         14
+
+    if NOMAD_MODE
+	else
+    max_distance_to_players         27
+    endif
+
+    set_loose_grouping
+    set_place_for_every_player
+    set_gaia_object_only
+}
+
+create_object DEER
+{
+    number_of_objects               4
+    group_placement_radius          3
+
+    max_distance_to_other_zones     2    
+    min_distance_to_players         18
+
+    if NOMAD_MODE
+	else
+    max_distance_to_players         22
+    endif
+
+    set_loose_grouping
+    set_place_for_every_player
+    set_gaia_object_only
+}
+
+create_object BOAR
+{
+    number_of_objects               1
+    number_of_groups                2
+  
+    max_distance_to_other_zones     2  
+    min_distance_group_placement    3
+    min_distance_to_players         16
+
+    if NOMAD_MODE
+	else
+    max_distance_to_players         21
+    endif
+
+    set_loose_grouping
+    set_place_for_every_player  
+    set_gaia_object_only
+}
+
+create_object FORAGE
+{
+    number_of_objects               6
+    group_placement_radius          3
+    
+    max_distance_to_other_zones     2
+    min_distance_group_placement    5
+    min_distance_to_players         11
+
+    if NOMAD_MODE
+	else
+    max_distance_to_players         12
+    endif
+
+    set_tight_grouping
+    set_place_for_every_player
+    set_gaia_object_only
+}
+
+create_object GOLD 
+{
+	number_of_objects               7
+
+    max_distance_to_other_zones     4
+	min_distance_group_placement    5
+	min_distance_to_other_zones     6
+	min_distance_to_players         10
+    
+    if NOMAD_MODE
+	else
+    max_distance_to_players         12
+    endif
+
+    set_tight_grouping
+	set_place_for_every_player    
+	set_gaia_object_only
+
+	terrain_to_place_on             NORMAL
+}
+
+create_object GOLD 
+{
+	number_of_objects               4
+
+    max_distance_to_other_zones     4
+	min_distance_group_placement    9
+	min_distance_to_other_zones     7
+	min_distance_to_players         16
+
+    if NOMAD_MODE
+	else
+    max_distance_to_players         19
+    endif
+
+    set_tight_grouping
+	set_place_for_every_player    
+	set_gaia_object_only
+
+	terrain_to_place_on             NORMAL
+}
+
+create_object STONE 
+{
+	number_of_objects               5
+
+    max_distance_to_other_zones     4
+	min_distance_group_placement    5
+	min_distance_to_other_zones     3
+	min_distance_to_players         12
+
+    if NOMAD_MODE
+	else
+    max_distance_to_players         14
+    endif
+
+	set_tight_grouping
+    set_place_for_every_player
+	set_gaia_object_only
+
+	terrain_to_place_on             NORMAL
+}
+
+create_object STONE 
+{
+	number_of_objects               4
+
+    max_distance_to_other_zones     4
+	min_distance_group_placement    5
+	min_distance_to_other_zones     3	
+	min_distance_to_players         15
+
+    if NOMAD_MODE
+	else
+    max_distance_to_players         19
+    endif
+
+	set_tight_grouping
+    set_place_for_every_player
+	set_gaia_object_only
+
+	terrain_to_place_on             NORMAL
+}
+
+create_object RELIC
+{
+    number_of_objects               5
+
+    min_distance_to_players         25
+    min_distance_group_placement    5
+    temp_min_distance_group_placement 20
+}
+
+/** Additonal deer and forage bushes **/
+create_object DEER 
+{
+	number_of_objects               rnd(1,5)
+    number_of_groups                1
+
+	set_tight_grouping
+    set_place_for_every_player
+	set_gaia_object_only
+
+	min_distance_to_players         24
+    max_distance_to_other_zones     2
+
+    terrain_to_place_on             NORMAL
+}
+
+create_object FORAGE 
+{
+	number_of_objects               rnd(2,6)
+    number_of_groups                rnd(1,2)
+	group_placement_radius          2
+
+	min_distance_group_placement    2
+    max_distance_to_other_zones     2
+
+	set_tight_grouping
+    set_place_for_every_player
+	set_gaia_object_only
+	
+	terrain_to_place_on             NORMAL
+}
+
+if NOMAD_MODE
+else
+create_object WOLF 
+{
+	number_of_objects               1
+	number_of_groups                rnd(2,5)
+
+    if XRES_MODE
+    resource_delta                  100
+    endif
+
+	temp_min_distance_group_placement 5
+    min_distance_to_players         18
+    max_distance_to_other_zones     3
+    
+    set_tight_grouping
+    set_place_for_every_player
+	set_gaia_object_only
+
+    terrain_to_place_on             NORMAL
+}
+endif

@@ -1,0 +1,581 @@
+/**
+
+    "Your Inner Donut"
+    A map where there is a main donut/ring of land with wood and food with limited gold and stone piles. There is a centre island inside the donut with plenty of gold. 
+    In the corners of the map you can find additional stone piles and relics will spawn on the coast / in the sea / ocean.
+
+    
+	
+    ~Made by TheLonely~
+
+**/
+
+
+
+<PLAYER_SETUP>
+random_placement
+
+
+
+<LAND_GENERATION>
+/** Base terrain **/
+base_terrain                        WATER
+
+/** Create an island **/
+create_land 
+{
+	terrain_type                    GRASS
+	land_percent                    80
+
+	left_border                     14
+	right_border                    14
+	top_border                      14
+	bottom_border                   14
+	
+	border_fuzziness                3
+	clumping_factor                 80
+
+	other_zone_avoidance_distance   0
+}
+
+/** Hollow the island out with a mass of water **/
+create_land 
+{
+	terrain_type                    WATER
+	land_percent                    85
+
+	left_border                     38
+	right_border                    38
+	top_border                      38
+	bottom_border                   38
+	
+	border_fuzziness                20
+	clumping_factor                 90
+
+	other_zone_avoidance_distance   0
+}
+
+create_land 
+{
+	terrain_type                    WATER
+	land_percent                    85
+
+	left_border                     38
+	right_border                    38
+	top_border                      38
+	bottom_border                   38
+	
+	border_fuzziness                20
+	clumping_factor                 90
+
+	other_zone_avoidance_distance   0
+}
+
+/** Create the centre island within the donut **/
+create_land 
+{
+	terrain_type                    WATER
+	land_percent                    100
+
+	left_border                     38
+	right_border                    38
+	top_border                      38
+	bottom_border                   38
+
+	base_size                       6
+    land_position                   50 50
+
+	other_zone_avoidance_distance   0
+}
+
+create_land 
+{
+	terrain_type                    DESERT
+	
+
+	left_border                     45
+	right_border                    45
+	top_border                      45
+	bottom_border                   45
+
+	base_size                       5
+    land_position                   50 50
+
+	border_fuzziness                2
+	clumping_factor                 10
+
+	other_zone_avoidance_distance   0
+}
+
+/** Create the player lands **/
+create_player_lands 
+{
+	terrain_type                    GRASS
+	land_percent                    1
+	set_zone_by_team
+	if TINY_MAP
+		left_border 15
+		right_border 15
+		top_border 15
+		bottom_border 15	
+		other_zone_avoidance_distance 9
+	else
+		if SMALL_MAP
+			left_border 8
+			right_border 8
+			top_border 8
+			bottom_border 8
+			base_size 11
+		elseif MEDIUM_MAP
+			left_border 8
+			right_border 8
+			top_border 8
+			bottom_border 8
+			base_size 11		
+		else
+			left_border 5
+			right_border 5
+			top_border 5
+			bottom_border 5
+			base_size 11
+		endif
+		other_zone_avoidance_distance 0
+	endif
+
+	clumping_factor                 100
+	border_fuzziness                100
+}
+
+/** Create the corner islands **/
+create_land 
+{
+    terrain_type                    DIRT2
+    land_percent                    1
+
+    land_position                   6 6
+}
+
+create_land 
+{
+    terrain_type                    DIRT2
+    land_percent                    1
+
+    land_position                   94 6
+}
+
+create_land 
+{
+    terrain_type                    DIRT2
+    land_percent                    1
+
+    land_position                   6 94
+}
+
+create_land 
+{
+    terrain_type                    DIRT2
+    land_percent                    1
+
+    land_position                   94 94
+}
+
+
+
+<ELEVATION_GENERATION>
+/** Create some elevation across the map **/
+create_elevation 5 
+{
+	base_terrain                    GRASS
+	number_of_tiles                 150
+	number_of_clumps                100
+
+	set_scale_by_size
+	set_scale_by_groups
+}
+
+create_elevation 8 
+{
+	base_terrain                    DESERT
+	number_of_tiles                 150
+	number_of_clumps                25
+
+	set_scale_by_size
+	set_scale_by_groups
+}
+
+create_elevation 5 
+{
+	base_terrain                    DIRT2
+	number_of_tiles                 150
+	number_of_clumps                25
+
+	set_scale_by_size
+	set_scale_by_groups
+}
+
+
+
+<TERRAIN_GENERATION>
+create_terrain LEAVES 
+{
+	base_terrain                    GRASS
+	land_percent                    99
+	number_of_clumps                500
+	spacing_to_other_terrain_types  2
+}
+
+/** Sprinkle a bit of magic over the terrain to fix up shore / coast lines **/
+create_terrain WATER 
+{
+	base_terrain                    GRASS
+	land_percent                    99
+	number_of_clumps                500
+
+	spacing_to_other_terrain_types  2
+}
+
+create_terrain GRASS 
+{
+	base_terrain                    LEAVES
+	land_percent                    99
+	number_of_clumps                500
+}
+
+create_terrain MED_WATER 
+{
+	base_terrain                    WATER
+	land_percent                    99
+	number_of_clumps                500
+
+	spacing_to_other_terrain_types  2
+}
+
+/** Create the wood **/
+create_terrain FOREST 
+{
+	base_terrain                    GRASS
+	land_percent                    13
+	number_of_clumps                15	
+	clumping_factor                 100
+
+	spacing_to_other_terrain_types  2
+    
+    set_scale_by_groups
+	set_avoid_player_start_areas
+}
+
+create_terrain GRASS2 
+{
+	base_terrain                    GRASS
+	land_percent                    99
+	number_of_clumps                500
+	spacing_to_other_terrain_types  2
+}
+
+
+
+<CLIFF_GENERATION>
+/** Add some cliffs **/
+min_number_of_cliffs                7
+max_number_of_cliffs                15
+
+
+
+<OBJECTS_GENERATION>
+/** Basic stuff; TC, vills and spearman **/
+create_object TOWN_CENTER 
+{	
+	max_distance_to_players         0
+
+    set_place_for_every_player
+}
+
+create_object VILLAGER 
+{
+	min_distance_to_players         6
+	max_distance_to_players         6
+
+    set_place_for_every_player
+}
+
+create_object SPEARMAN 
+{
+	min_distance_to_players         6
+	max_distance_to_players         6
+
+    set_place_for_every_player
+}
+
+/** Add the fish, blup blup **/
+create_object SNAPPER 
+{
+	number_of_objects               1
+	number_of_groups                rnd(25,125)
+	group_placement_radius          1
+
+	temp_min_distance_group_placement 7
+	min_distance_group_placement    3
+
+	set_gaia_object_only
+
+	terrain_to_place_on             MED_WATER
+}
+
+create_object FISH_DORADO 
+{
+	number_of_objects               1
+	number_of_groups                rnd(25,125)
+	group_placement_radius          1	
+
+	temp_min_distance_group_placement 10
+	min_distance_group_placement    3
+
+	set_gaia_object_only
+    
+    terrain_to_place_on             MED_WATER
+}
+
+create_object TUNA 
+{
+	number_of_objects               1
+	number_of_groups                rnd(50,175)
+	group_placement_radius          1	
+
+	temp_min_distance_group_placement 13
+	min_distance_group_placement    3
+
+	set_gaia_object_only
+
+	terrain_to_place_on             MED_WATER
+}
+
+create_object SHORE_FISH 
+{
+	number_of_objects               2
+    number_of_groups rnd(50,200)
+	group_variance                  1
+	
+	temp_min_distance_group_placement 12
+
+    set_loose_grouping
+	set_gaia_object_only
+
+	terrain_to_place_on             WATER
+}
+
+/** The basic resources, gold, stone, forage bushes, sheep, boar etc BUT limited gold and stone **/
+create_object FORAGE
+{
+	number_of_objects               6
+	group_placement_radius          2
+
+	min_distance_group_placement    2		
+	min_distance_to_players         10
+	max_distance_to_players         12
+
+    set_tight_grouping
+    set_place_for_every_player
+    set_gaia_object_only
+
+	terrain_to_place_on             GRASS
+}
+
+create_object SHEEP 
+{
+	number_of_objects               1
+	number_of_groups                4
+
+	min_distance_to_players         2
+	max_distance_to_players         4
+
+	set_tight_grouping
+	set_place_for_every_player
+	set_gaia_object_only
+
+    terrain_to_place_on             GRASS
+}
+
+create_object SHEEP 
+{
+	number_of_objects               2
+	number_of_groups                2
+
+	min_distance_to_players         14
+	max_distance_to_players         22
+
+	set_loose_grouping
+	set_place_for_every_player
+    set_gaia_object_only
+
+    terrain_to_place_on             GRASS
+}
+
+create_object DEER 
+{
+	number_of_objects               5
+
+	min_distance_to_players         18
+	max_distance_to_players         25
+
+    set_tight_grouping
+	set_place_for_every_player    
+	set_gaia_object_only
+
+    other_zone_avoidance_distance   2
+    terrain_to_place_on             GRASS
+}
+
+create_object BOAR 
+{
+	number_of_objects               1
+	number_of_groups                2
+
+	min_distance_to_players         16
+	max_distance_to_players         20
+
+	set_gaia_object_only
+	set_place_for_every_player
+
+    other_zone_avoidance_distance   2
+}
+
+create_object STONE 
+{
+	number_of_objects               4
+
+	min_distance_group_placement    5
+	max_distance_to_other_zones     2	
+	min_distance_to_players         18
+	max_distance_to_players         27
+
+	set_tight_grouping
+    set_place_for_every_player
+	set_gaia_object_only
+
+	terrain_to_place_on             GRASS
+}
+
+create_object GOLD 
+{
+	number_of_objects               7
+
+	min_distance_group_placement    5
+	max_distance_to_other_zones     6
+	min_distance_to_players         10
+	max_distance_to_players         16
+
+    set_tight_grouping
+	set_place_for_every_player    
+	set_gaia_object_only
+
+	terrain_to_place_on             GRASS
+}
+
+/** Additonal deer and forage bushes **/
+create_object DEER 
+{
+	number_of_objects               rnd(1,5)
+    number_of_groups                rnd(2,5)
+
+	set_tight_grouping
+	set_gaia_object_only
+
+	min_distance_to_players         24
+    other_zone_avoidance_distance   2
+
+    terrain_to_place_on             GRASS
+}
+
+create_object FORAGE 
+{
+	number_of_objects               rnd(2,6)
+    number_of_groups                rnd(2,4)
+	group_placement_radius          2
+
+	min_distance_group_placement    2
+
+	set_tight_grouping
+	set_gaia_object_only
+	
+	terrain_to_place_on             GRASS
+}
+
+create_object WOLF 
+{
+	number_of_objects               1
+	number_of_groups                rnd(7,16)
+
+    resource_delta                  100
+	temp_min_distance_group_placement 5
+    min_distance_to_players         18
+    
+    set_tight_grouping
+	set_gaia_object_only
+
+    terrain_to_place_on             GRASS
+}
+
+/** Special resources **/
+create_object GOLD 
+{
+	number_of_objects               rnd(5,12)
+	number_of_groups                rnd(4,8)
+
+	temp_min_distance_group_placement 2
+    
+    set_tight_grouping
+	set_gaia_object_only
+
+    terrain_to_place_on             DESERT
+}
+
+create_object WOLF 
+{
+	number_of_objects               rnd(1)
+	number_of_groups                rnd(8,12)
+
+	temp_min_distance_group_placement 1
+    
+    set_tight_grouping
+	set_gaia_object_only
+
+    terrain_to_place_on             DESERT
+}
+
+create_object GOLD 
+{
+	number_of_objects               rnd(1,4)
+	number_of_groups                rnd(1,4)
+
+	temp_min_distance_group_placement 15
+    
+    set_tight_grouping
+	set_gaia_object_only
+
+    terrain_to_place_on             DIRT2
+}
+
+create_object STONE 
+{
+	number_of_objects               rnd(5,9)
+	number_of_groups                rnd(15,35)
+	
+	min_distance_group_placement    5
+	
+    set_tight_grouping
+    set_gaia_object_only
+
+    terrain_to_place_on             DIRT2
+}
+
+create_object RELIC 
+{
+	number_of_objects               1
+	number_of_groups                4
+
+    min_distance_group_placement    20
+
+    set_gaia_object_only
+
+    terrain_to_place_on             DIRT2
+}
